@@ -153,6 +153,12 @@
 
 <!-- Page 8: AR Study Mode -->
 <section id="ar-study" class="page">
+    <!-- Add video element for camera feed -->
+    <video id="camera-feed" autoplay playsinline></video>
+
+    <!-- Canvas overlay for 3D -->
+    <div id="model-overlay"></div>
+    
     <div class="timer-ui">
         <div class="timer-display">
             <span id="study-minutes">25</span>
@@ -203,21 +209,21 @@
     </div>
 </section>
 
-<!-- Must be before any module scripts that import "three" -->
+<!-- Import map for Three.js modules -->
 <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
-      }
-    }
-    </script>
-    
-    <!-- Module script that uses importmap -->
-    <script type="module" src="ar-scene.js"></script>
-    
-    <!-- Your non-module scripts can go after -->
-    <script src="script.js"></script>
-    
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+  }
+}
+</script>
+
+<!-- Module script for 3D scene with camera feed -->
+<script type="module" src="scene-camera.js"></script>
+
+<!-- Your main app logic -->
+<script src="script.js"></script>
+
 </body>
 </html>

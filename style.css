@@ -446,7 +446,29 @@ p {
 /* AR Study */
 #ar-study {
   position: relative;
-  background-color: black;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#camera-feed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.timer-ui {
+  position: relative;
+  z-index: 1;
+}
+
+.popup {
+  position: relative;
+  z-index: 2;
 }
 
 .timer-ui {
@@ -506,6 +528,16 @@ p {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+/* 3D canvas overlay */
+#model-overlay canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 /* AR Popup */
