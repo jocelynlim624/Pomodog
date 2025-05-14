@@ -52,23 +52,37 @@ function initScene() {
     controls.update();
 
     const loader = new GLTFLoader();
-    const characterIndex = parseInt(localStorage.getItem('selectedCharacter')) || 0;
-    const modelFile = `Assets/Pomodog_dog${characterIndex + 1}.glb`;
+    const characterIndex = parseInt(localStorage.getItem('selectedCharacter'));
+    console.log('Raw character index from storage:', localStorage.getItem('selectedCharacter'));
+    console.log('Parsed character index:', characterIndex);
+    
+    // Ensure we have a valid index (0, 1, or 2)
+    const validIndex = characterIndex >= 0 && characterIndex <= 2 ? characterIndex : 0;
+    const modelFile = `Assets/Pomodog_dog${validIndex + 1}.glb`;
+    
+    console.log('Loading model file:', modelFile);
+    
+    loader.load(
+        modelFile,
+        (gltf) => {
+            console.log('Successfully loaded model:', modelFile);
+            dogModel = gltf.scene;
+            dogModel.scale.set(1.5, 1.5, 1.5);
+            dogModel.position.set(0, 0, 0);
+            scene.add(dogModel);
 
-    loader.load(modelFile, (gltf) => {
-        dogModel = gltf.scene;
-        dogModel.scale.set(1.5, 1.5, 1.5);
-        dogModel.position.set(0, 0, 0);
-        scene.add(dogModel);
-
-        // Play animation
-        mixer = new THREE.AnimationMixer(dogModel);
-        gltf.animations.forEach((clip) => {
-            const action = mixer.clipAction(clip);
-            action.play();
-        });
-    });
-
+            // Play animation
+            mixer = new THREE.AnimationMixer(dogModel);
+            gltf.animations.forEach((clip) => {
+                const action = mixer.clipAction(clip);
+                action.play();
+            });
+        },
+        undefined,
+        (error) => {
+            console.error('Error loading model:', error);
+        }
+    );
 
     renderer.domElement.addEventListener('click', onTap);
 

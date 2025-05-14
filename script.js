@@ -417,6 +417,8 @@ function initCharacterSelector() {
     rightArrow.addEventListener('click', () => changeCharacter(1));
 
     selectButton.addEventListener('click', () => {
+        localStorage.setItem('selectedCharacter', currentIndex);
+        
         const characterSelectPage = document.getElementById('character-select');
         const confirmationPage = document.getElementById('confirmation');
         
@@ -592,6 +594,9 @@ document.getElementById('end-session').addEventListener('click', () => {
         timerInterval = null;
     }
     
+    // Clear selected character
+    localStorage.removeItem('selectedCharacter');
+    
     handleBackButton(currentPage, previousPage);
 });
 
@@ -724,6 +729,9 @@ function initARTimer() {
             // Stop current timer
             clearInterval(timerInterval);
             timerInterval = null;
+            
+            // Clear selected character
+            localStorage.removeItem('selectedCharacter');
             
             // Hide confirmation popup
             stopConfirmation.classList.add('hidden');
