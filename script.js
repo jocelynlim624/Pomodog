@@ -655,70 +655,110 @@ function initARTimer() {
     const stopConfirmation = document.getElementById('stop-confirmation');
     const confirmStopBtn = document.getElementById('confirm-stop');
     const cancelStopBtn = document.getElementById('cancel-stop');
-
+    
     let isPaused = false;
-
-    updateARTime();
+    
+    // Initialize timer display with current studyTime values
+    updateConfirmationTime();
+    
+    // Start the timer automatically
     startTimer();
-
+    
+    // Reset button handler
     resetBtn.addEventListener('click', () => {
+        const stopConfirmation = document.getElementById('stop-confirmation');
         stopConfirmation.classList.remove('hidden');
-        stopConfirmation.querySelector('h3').textContent = 'Want to start fresh?';
-        stopConfirmation.querySelector('p').textContent = 'Are you sure you want to restart your session?';
+        
+        // Update popup text for reset action
+        const popupTitle = stopConfirmation.querySelector('h3');
+        const popupText = stopConfirmation.querySelector('p');
+        popupTitle.textContent = 'Want to start fresh?';
+        popupText.textContent = 'Are you sure you want to restart your session?';
     });
-
+    
+    // Pause button handler
     pauseBtn.addEventListener('click', () => {
-        const img = pauseBtn.querySelector('img');
         if (isPaused) {
+            // Resume timer
+            console.log('Resuming timer, switching to pause.png');
             startTimer();
+            const img = pauseBtn.querySelector('img');
             img.src = 'Assets/pause.png';
+            console.log('Image src set to:', img.src);
         } else {
+            // Pause timer
+            console.log('Pausing timer, switching to play.png');
             clearInterval(timerInterval);
             timerInterval = null;
+            const img = pauseBtn.querySelector('img');
             img.src = 'Assets/play.png';
+            console.log('Image src set to:', img.src);
         }
         isPaused = !isPaused;
+        console.log('isPaused:', isPaused);
     });
-
+    
+    // Stop button handler
     stopBtn.addEventListener('click', () => {
+        // Show stop confirmation popup
+        const stopConfirmation = document.getElementById('stop-confirmation');
         stopConfirmation.classList.remove('hidden');
-        stopConfirmation.querySelector('h3').textContent = 'End session?';
-        stopConfirmation.querySelector('p').textContent = 'Are you sure you want to end your study session?';
+        
+        // Update popup text for stop action
+        const popupTitle = stopConfirmation.querySelector('h3');
+        const popupText = stopConfirmation.querySelector('p');
+        popupTitle.textContent = 'End session?';
+        popupText.textContent = 'Are you sure you want to end your study session?';
     });
-
+    
+    // Confirm stop handlers
     confirmStopBtn.addEventListener('click', () => {
-        const title = stopConfirmation.querySelector('h3').textContent;
-        stopConfirmation.classList.add('hidden');
-
-        if (title === 'End session?') {
-            clearInterval(timerInterval);
-            timerInterval = null;
+        const stopConfirmation = document.getElementById('stop-confirmation');
+        const popupTitle = stopConfirmation.querySelector('h3').textContent;
+        
+        if (popupTitle === 'End session?') {
             const currentPage = document.getElementById('ar-study');
             const previousPage = document.getElementById('splash-screen');
-            handleBackButton(currentPage, previousPage);
-        } else {
+            
+            // Stop current timer
             clearInterval(timerInterval);
             timerInterval = null;
-            studyTime.minutes = 25;
-            studyTime.seconds = 0;
+            
+            // Hide confirmation popup
+            stopConfirmation.classList.add('hidden');
+            
+            // Use handleBackButton for consistent slide animation
+            handleBackButton(currentPage, previousPage);
+        } else {
+            // Hide confirmation popup
+            stopConfirmation.classList.add('hidden');
+            
+            // Reset action - restart current timer
+            clearInterval(timerInterval);
+            timerInterval = null;
+            
+            // Get original time values from selected timer values
+            const minutesSelected = document.querySelector('#minutes-scroll .timer-value.selected');
+            const secondsSelected = document.querySelector('#seconds-scroll .timer-value.selected');
+            
+            // Reset to original time values
+            studyTime.minutes = minutesSelected ? parseInt(minutesSelected.dataset.value) : 25;
+            studyTime.seconds = secondsSelected ? parseInt(secondsSelected.dataset.value) : 0;
+            
+            // Update time remaining and displays
             updateTimeRemaining();
             updateConfirmationTime();
-            updateARTime();
+            
+            // Start timer with reset values
             startTimer();
+            
+            // Reset pause button state
             isPaused = false;
             pauseBtn.querySelector('img').src = 'Assets/pause.png';
         }
     });
-
+    
     cancelStopBtn.addEventListener('click', () => {
         stopConfirmation.classList.add('hidden');
     });
 }
-
-document.getElementById('confirm-settings').addEventListener('click', function () {
-    localStorage.setItem('selectedCharacter', selectedCharacter);
-    startTimer();
-    navigateTo('ar-study');
-    updateARTime();
-    initARTimer(); // 💡 Add this line
-});
