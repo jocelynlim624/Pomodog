@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTimerSelector();
     initBreakOptions(); // Initialize break options
     initCharacterSelector();
-    startCamera(); // Start the camera feed
 });
 
 // ------------- SPLASH SCREEN (PAGES 1-3) -------------
@@ -763,20 +762,3 @@ function initARTimer() {
         stopConfirmation.classList.add('hidden');
     });
 }
-
-async function startCamera() {
-    try {
-        const cameraFeed = document.getElementById('camera-feed');
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { 
-                facingMode: 'environment' // Use back camera if available
-            } 
-        });
-        cameraFeed.srcObject = stream;
-    } catch (err) {
-        console.error('Error accessing camera:', err);
-    }
-}
-
-// Call this function when the page loads
-document.addEventListener('DOMContentLoaded', startCamera);
