@@ -12,7 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver(() => {
         const arPage = document.getElementById('ar-study');
         if (arPage.classList.contains('active')) {
-            initARScene();
+            init();
             observer.disconnect();
         }
     });
@@ -24,27 +24,30 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function initARScene() {
+function init() {
     const container = document.getElementById('ar-container');
 
+    // Create renderer and append to #ar-container
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.xr.enabled = true;
     container.appendChild(renderer.domElement);
 
-    // Hide ARButton UI (we already control the flow)
+    // Add AR button (hidden if desired)
     const arButton = ARButton.createButton(renderer, { requiredFeatures: ['hit-test'] });
-    arButton.style.display = 'none';
+    arButton.style.display = 'none'; // Hide default button
     document.body.appendChild(arButton);
 
+    // Create scene and camera
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera();
 
+    // Brighter light
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 3);
     hemiLight.position.set(0, 1, 0);
     scene.add(hemiLight);
 
+    // Reticle
     const ringGeo = new THREE.RingGeometry(0.07, 0.09, 32).rotateX(-Math.PI / 2);
     const ringMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     reticle = new THREE.Mesh(ringGeo, ringMat);
@@ -63,6 +66,7 @@ function initARScene() {
         localSpace = await session.requestReferenceSpace('local');
     });
 
+    // Model placement logic
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', () => {
         if (dogModel) return;
@@ -74,10 +78,7 @@ function initARScene() {
             if (reticle.visible) {
                 dogModel.position.setFromMatrixPosition(reticle.matrix);
             } else {
-                const dir = new THREE.Vector3(0, 0, -1)
-                    .applyMatrix4(camera.matrixWorld)
-                    .sub(camera.position)
-                    .normalize();
+                const dir = new THREE.Vector3(0, 0, -1).applyMatrix4(camera.matrixWorld).sub(camera.position).normalize();
                 dogModel.position.copy(camera.position.clone().add(dir.multiplyScalar(1)));
             }
 
@@ -87,10 +88,11 @@ function initARScene() {
                 mixer = new THREE.AnimationMixer(dogModel);
                 gltf.animations.forEach(clip => mixer.clipAction(clip).play());
             }
-        }, undefined, err => console.error('Error loading model:', err));
+        }, undefined, err => console.error('Model load error:', err));
     });
     scene.add(controller);
 
+    // Animation loop
     renderer.setAnimationLoop((timestamp, frame) => {
         if (frame && hitTestSource && localSpace) {
             const hits = frame.getHitTestResults(hitTestSource);
