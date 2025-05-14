@@ -374,12 +374,17 @@ p {
   visibility: hidden;
   transition: opacity 0.5s ease, visibility 0.5s ease;
   object-fit: contain;
+      display: none;
+
 }
 
 .character-animation.active {
   opacity: 1;
   visibility: visible;
+      display: block;
+
 }
+
 
 /* Confirmation */
 #confirmation {
