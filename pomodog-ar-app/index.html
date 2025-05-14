@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PomoDog - Splash Screen</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<link href="https://fonts.cdnfonts.com/css/alphakind" rel="stylesheet">
+                
+
+</head>
+<body>
+    <!-- Page 1-3: Splash Screen -->
+    <section id="splash-screen" class="splashpage active">
+        <div class="logo-container">
+            <video id="logo-animation" autoplay muted playsinline>
+                <source src="assets/POMODOG_LOGO.webm" type="video/webm">
+            </video>
+        </div>
+        <div class="title-container" id="title-container">
+            <h1>PomoDog</h1>
+            <p>AR Study Buddy</p>
+        </div>
+        <div id="character-container">
+            <img src="Assets/pomodog_cover.png" alt="PomoDog Character">
+        </div>
+        <button id="start-button" class="button">Start</button>
+    </section>
+
+
+      <!-- Page 4: Study Timer -->
+      <section id="study-timer" class="page">
+        <div class="back-button">
+            <button id="study-timer-back" class="back-btn">
+              <img src="Assets/backarrow.png" alt="Back">
+            </button>
+        </div>
+        <h2>How long would you like to study?</h2>
+        <div class="timer-selector">
+            <div class="timer-digits">
+                <div class="timer-column">
+                    <div class="timer-scroll" id="minutes-scroll">
+                        <div class="timer-value">00</div>
+                        <div class="timer-value">01</div>
+                        <div class="timer-value">02</div>
+                        <!-- More values will be added by JavaScript -->
+                    </div>
+                </div>
+                <div class="timer-separator">:</div>
+                <div class="timer-column">
+                    <div class="timer-scroll" id="seconds-scroll">
+                        <div class="timer-value">00</div>
+                        <div class="timer-value">01</div>
+                        <div class="timer-value">02</div>
+                        <!-- More values will be added by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="set-study-time" class="button primary-button">Set</button>
+    </section>
+
+
+    <!-- Page 5: Break Timer -->
+    <section id="break-timer" class="page">
+      <div class="back-button">
+        <button id="break-timer-back" class="back-btn">
+          <img src="Assets/backarrow.png" alt="Back">
+        </button>
+    </div>
+      <h2>Take breaks!</h2>
+      <p>How long would you like your break to be?</p>
+      <div class="break-options">
+        <button class="break-option" data-minutes="5">5 minutes</button>
+        <button class="break-option" data-minutes="10">10 minutes</button>
+        <button class="break-option" data-minutes="15">15 minutes</button>
+        <button class="break-option" data-minutes="20">20 minutes</button>
+      </div>
+      <div class="character-display">
+        <video class="character-animation active" data-character="1" autoplay loop muted>
+          <source src="Assets/POMODOG_Dog1.webm" type="video/webm">
+          <source src="Assets/POMODOG_Dog1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
+
+
+<!-- Page 6: Character Select -->
+<section id="character-select" class="page">
+    <div class="back-button">
+        <button id="character-select-back" class="back-btn" aria-label="Back">
+          <img src="Assets/backarrow.png" alt="Back" />
+        </button>
+    </div>
+    <h2>Please choose your Buddy!</h2>
+    <div class="character-carousel">
+        <button class="carousel-arrow left" aria-label="Previous Character" disabled>
+          <img src="Assets/leftbtn.png" alt="Left" />
+        </button>
+        <div class="character-display">
+    <video class="character-animation active" data-character="0" autoplay loop muted playsinline>
+        <source src="Assets/POMODOG_Dog1.webm" type="video/webm" />
+    </video>
+    <video class="character-animation" data-character="1" loop muted playsinline>
+        <source src="Assets/POMODOG_Dog2.webm" type="video/webm" />
+    </video>
+    <video class="character-animation" data-character="2" loop muted playsinline>
+        <source src="Assets/POMODOG_Dog3.webm" type="video/webm" />
+    </video>
+</div>
+        <button class="carousel-arrow right" aria-label="Next Character">
+          <img src="Assets/rightbtn.png" alt="Right" />
+        </button>
+    </div>
+    <button id="select-character" class="button primary-button">Select</button>
+  </section>
+
+
+
+<!-- Page 7: Confirmation -->
+<section id="confirmation" class="page">
+    <div class="back-button">
+        <button id="confirmation-back" class="back-btn">
+          <img src="Assets/backarrow.png" alt="Back">
+        </button>
+    </div>
+    <div class="study-info">
+        <h2>Study for</h2>
+        <div class="timer-display">
+            <span id="study-minutes">25</span>
+            <div class="timer-separator">:</div>
+            <span id="study-seconds">00</span>
+        </div>
+        <p>Don't stress! Pomo will study with you</p>
+    </div>
+    <div class="selected-character">
+        <video id="selected-animation" autoplay loop muted>
+            <source src="Assets/POMODOG_Dog1.webm" type="video/webm">
+        </video>
+    </div>
+    <button id="confirm-settings" class="button primary-button">Start</button>
+</section>
+
+
+
+
+
+<!-- Page 8: AR Study Mode -->
+<section id="ar-study" class="page">
+    <div class="timer-ui">
+        <div class="timer-display">
+            <span id="study-minutes">25</span>
+            <div class="timer-separator">:</div>
+            <span id="study-seconds">00</span>
+        </div>
+        <div class="timer-controls">
+            <button id="reset-btn" class="control-btn"><img src="Assets/restart.png" alt="Reset Timer"></button>
+            <button id="pause-btn" class="control-btn"><img src="Assets/pause.png" alt="Pause Timer"></button>
+            <button id="stop-btn" class="control-btn"><img src="Assets/stop.png" alt="Stop Timer"></button>
+        </div>
+    </div>
+
+    <!-- Stop Confirmation Popup -->
+    <div id="stop-confirmation" class="popup hidden">
+        <div class="popup-content">
+            <h3>Want to start fresh?</h3>
+            <p>Are you sure you want to restart your session?</p>
+            <div class="popup-buttons">
+                <button id="confirm-stop" class="popup-btn confirm">Yes</button>
+                <button id="cancel-stop" class="popup-btn cancel">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="ar-container"></div>
+</section>
+
+<!-- Page 9: Finished Page -->
+<section id="finished-page" class="page">
+    <div class="finished-content">
+        <h1>You did it!</h1>
+        <p>You deserve a breather... and a treat!</p>
+        <div class="timer-display">
+            <span id="break-minutes">05</span>
+            <div class="timer-separator">:</div>
+            <span id="break-seconds">00</span>
+        </div>
+        <div class="finished-character">
+            <video id="finished-animation" autoplay loop muted playsinline>
+                <source </video>src="Assets/POMODOG_Dog1.webm" type="video/webm">
+            </video>
+        </div>
+        <div class="finished-buttons">
+            <button id="next-session" class="button primary-button">Next Session</button>
+            <button id="end-session" class="button secondary-button">End Session</button>
+        </div>
+    </div>
+</section>
+
+<!-- Must be before any module scripts that import "three" -->
+<script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+      }
+    }
+    </script>
+    
+    <!-- Module script that uses importmap -->
+    <script type="module" src="ar-scene.js"></script>
+    
+    <!-- Your non-module scripts can go after -->
+    <script src="script.js"></script>
+    
+</body>
+</html>
