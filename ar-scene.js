@@ -5,6 +5,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 let camera, scene, renderer;
 let reticle, controller;
 let dogModel = null;
+let mixer = null;
+const clock = new THREE.Clock();
 
 window.addEventListener('DOMContentLoaded', () => {
     const observer = new MutationObserver(() => {
@@ -15,9 +17,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    observer.observe(document.body, {
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class']
+    });
 });
-
 
 function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -32,10 +37,12 @@ function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera();
 
-    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-    light.position.set(0.5, 1, 0.25);
-    scene.add(light);
+    // Bright Hemisphere Light
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 3);
+    hemiLight.position.set(0, 1, 0);
+    scene.add(hemiLight);
 
+    // Reticle for surface placement
     const geometry = new THREE.RingGeometry(0.07, 0.09, 32).rotateX(-Math.PI / 2);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     reticle = new THREE.Mesh(geometry, material);
@@ -55,6 +62,7 @@ function init() {
         localSpace = await session.requestReferenceSpace('local');
     });
 
+    // Handle model placement
     controller = renderer.xr.getController(0);
     controller.addEventListener('select', () => {
         if (reticle.visible && !dogModel) {
@@ -63,6 +71,14 @@ function init() {
                 dogModel.scale.set(0.2, 0.2, 0.2);
                 dogModel.position.setFromMatrixPosition(reticle.matrix);
                 scene.add(dogModel);
+
+                // Play animation if available
+                if (gltf.animations.length > 0) {
+                    mixer = new THREE.AnimationMixer(dogModel);
+                    gltf.animations.forEach((clip) => {
+                        mixer.clipAction(clip).play();
+                    });
+                }
             }, undefined, (error) => {
                 console.error('Error loading dog model:', error);
             });
@@ -81,6 +97,9 @@ function init() {
                 reticle.visible = false;
             }
         }
+
+        const delta = clock.getDelta();
+        if (mixer) mixer.update(delta);
         renderer.render(scene, camera);
     });
 }
