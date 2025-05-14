@@ -81,8 +81,8 @@
         <button class="break-option" data-minutes="15">15 minutes</button>
         <button class="break-option" data-minutes="20">20 minutes</button>
       </div>
-      <div class="character-display">
-        <video class="character-animation active" data-character="1" autoplay loop muted>
+      <div class="character-display" playsinline>
+        <video class="character-animation active" data-character="1"loop muted playsinline>
           <source src="Assets/POMODOG_Dog1.webm" type="video/webm">
           <source src="Assets/POMODOG_Dog1.mp4" type="video/mp4">
           Your browser does not support the video tag.
@@ -103,8 +103,8 @@
         <button class="carousel-arrow left" aria-label="Previous Character" disabled>
           <img src="Assets/leftbtn.png" alt="Left" />
         </button>
-        <div class="character-display">
-    <video class="character-animation active" data-character="0" autoplay loop muted playsinline>
+        <div class="character-display" playsinline>
+    <video class="character-animation active" data-character="0"loop muted playsinline>
         <source src="Assets/POMODOG_Dog1.webm" type="video/webm" />
     </video>
     <video class="character-animation" data-character="1" loop muted playsinline>
@@ -139,8 +139,8 @@
         </div>
         <p>Don't stress! Pomo will study with you</p>
     </div>
-    <div class="selected-character">
-        <video id="selected-animation" autoplay loop muted>
+    <div class="selected-character" playsinline>
+        <video id="selected-animation"loop muted playsinline>
             <source src="Assets/POMODOG_Dog1.webm" type="video/webm">
         </video>
     </div>
@@ -192,7 +192,7 @@
             <span id="break-seconds">00</span>
         </div>
         <div class="finished-character">
-            <video id="finished-animation" autoplay loop muted playsinline>
+            <video id="finished-animation"loop muted playsinline>
                 <source </video>src="Assets/POMODOG_Dog1.webm" type="video/webm">
             </video>
         </div>
