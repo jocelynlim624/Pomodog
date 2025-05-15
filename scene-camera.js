@@ -58,7 +58,15 @@ function initScene() {
     
     // Ensure we have a valid index (0, 1, or 2)
     const validIndex = characterIndex >= 0 && characterIndex <= 2 ? characterIndex : 0;
-    const modelFile = `Assets/Pomodog_dog${validIndex + 1}.glb`;
+    let modelNumber;
+    if (validIndex === 0) {
+        modelNumber = 1;  // Character 1 shows model 3
+    } else if (validIndex === 1) {
+        modelNumber = 2;  // Character 2 shows model 2 (unchanged)
+    } else {
+        modelNumber = 3;  // Character 3 shows model 1
+    }
+    const modelFile = `Assets/Pomodog_dog${modelNumber}.glb`;
     
     console.log('Loading model file:', modelFile);
     
