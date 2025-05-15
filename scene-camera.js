@@ -76,7 +76,7 @@ function initScene() {
             console.log('Successfully loaded model:', modelFile);
             dogModel = gltf.scene;
             dogModel.scale.set(1.5, 1.5, 1.5);
-            dogModel.position.set(0, 0, 0);
+            dogModel.position.set(-0.2, 1, 0.5);
             scene.add(dogModel);
 
             // Play animation
