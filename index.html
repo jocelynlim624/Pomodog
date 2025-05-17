@@ -159,6 +159,22 @@
     <!-- Canvas overlay for 3D -->
     <div id="model-overlay"></div>
     
+    <!-- Instructions Popup -->
+    <div class="instruction-popup" id="instruction-popup">
+        <h2>Instructions</h2>
+        <div class="instruction-content">
+            <div class="instruction-item">
+                <img src="Assets/zoom.png" alt="Pinch zoom gesture">
+                <p>Pinch the screen to<br>adjust Pomo's size.</p>
+            </div>
+            <div class="instruction-item">
+                <img src="Assets/tap.png" alt="Tap gesture">
+                <p>Tap the screen to<br>reposition Pomo.</p>
+            </div>
+        </div>
+        <button class="lets-go-btn" onclick="closeInstructions()">Let's Go</button>
+    </div>
+    
     <div class="timer-ui">
         <div class="timer-display">
             <span id="study-minutes">25</span>
@@ -186,6 +202,8 @@
 
     <div id="ar-container"></div>
 </section>
+
+
 
 <!-- Page 9: Finished Page -->
 <section id="finished-page" class="page">

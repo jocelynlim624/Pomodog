@@ -788,3 +788,17 @@ async function startCamera() {
 
 // Call this function when the page loads
 document.addEventListener('DOMContentLoaded', startCamera);
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we're on the AR study page
+    if (window.location.pathname.includes('ar-study')) {
+        // Show instructions popup
+        const instructionPopup = document.getElementById('instruction-popup');
+        instructionPopup.classList.remove('hidden');
+    }
+});
+
+function closeInstructions() {
+    const instructionPopup = document.getElementById('instruction-popup');
+    instructionPopup.classList.add('hidden');
+}
