@@ -56,8 +56,8 @@ function initScene() {
     console.log('Raw character index from storage:', localStorage.getItem('selectedCharacter'));
     console.log('Parsed character index:', characterIndex);
     
-    // Ensure we have a valid index (0, 1, or 2)
-    const validIndex = characterIndex >= 0 && characterIndex <= 2 ? characterIndex : 0;
+    const MAX_CHARACTERS = 3;
+    const validIndex = characterIndex >= 0 && characterIndex < MAX_CHARACTERS ? characterIndex : 0;
     let modelNumber;
     if (validIndex === 0) {
         modelNumber = 1;  // Character 1 shows model 3
